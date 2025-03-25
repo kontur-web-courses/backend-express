@@ -1,0 +1,11 @@
+GET http://localhost:3000/users
+Accept: application/json
+
+###
+
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "name": "Maxim"
+}
