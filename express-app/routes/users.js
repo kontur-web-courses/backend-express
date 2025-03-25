@@ -7,15 +7,15 @@ router.get('/', function(req, res, next) {
     items: [
       {
         id: 1,
-        name: "Иван Иванов"
+        name: "хопесима"
       },
       {
         id: 2,
-        name: "Петр Петров"
+        name: "райан гослинг"
       },
       {
         id: 3,
-        name: "Сергей Сергеев"
+        name: "мурад"
       }
     ]
   });
