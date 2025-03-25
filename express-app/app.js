@@ -14,7 +14,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use((req, res, next) => {
+    let auth = req.query.auth;
+    if (auth !== "true") {
+        res.status(401).send();
+    }
+
+    next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
 
 module.exports = app;
