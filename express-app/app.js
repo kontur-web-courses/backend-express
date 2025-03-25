@@ -14,13 +14,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use((req, res, next) => {
-    if (req.query.auth === 'true') {
-        next();
-    } else {
-        res.status(403).json({ error: 'Forbidden: Authentication required' });
+    if (req.query.auth !== 'true') {
+        return res.status(401).json({ error: 'Требуется аутентификация' });
     }
+    next();
 });
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
