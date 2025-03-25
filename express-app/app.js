@@ -16,11 +16,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
 app.use((req, res, next) => {
     if (req.query["auth"] !== "true") {
         return res.sendStatus(401);
     }
-    return next();
-    }, usersRouter);
+    else return next();
+}, usersRouter);
+
+app.use('/users', usersRouter);
+
 module.exports = app;
