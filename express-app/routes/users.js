@@ -22,10 +22,6 @@ function getUsers(res) {
   });
 }
 
-let users = [{
-    "id": 1,
-    "name": "name"
-}];
 /* GET users listing. */
 router.get('/', function (req, res, next) {
   getUsers(res);
