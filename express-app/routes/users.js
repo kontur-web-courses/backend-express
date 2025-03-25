@@ -1,9 +1,33 @@
 var express = require('express');
 var router = express.Router();
+const sqlite3 = require('sqlite3').verbose()
+const db = new sqlite3.Database('mydb.db');
 
-/* GET users listing. */
+db.run(`CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name text)`);
+
+
 router.get('/', function(req, res, next) {
-  res.send('Hello, world!');
+  db.all("SELECT id, name FROM users", [], (err, rows) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send({items: rows});
+    }
+  });
+});
+
+router.post('/', function(req, res, next) {
+  if (!req.body.name) {
+    return res.status(400).send({ error: 'Необходимо имя' });
+  }
+
+  const insert = "INSERT INTO users (name) VALUES (?)";
+  db.run(insert, [req.body.name]);
+
+  res.status(200).send({
+    id: this.lastID,
+    name: req.body.name
+  });
 });
 
 module.exports = router;
