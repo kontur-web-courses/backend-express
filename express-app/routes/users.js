@@ -1,3 +1,11 @@
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('mydb.db');
+
+db.run(`CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT
+)`);
+
 var express = require('express');
 var router = express.Router();
 
@@ -9,7 +17,14 @@ let users = [
 let nextId = 4;
 
 router.get('/', function(req, res, next) {
-  res.json({ items: users });
+  db.all("SELECT id, name FROM users", [], (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Database error' });
+    } else {
+      res.json({ items: rows });
+    }
+  });
 });
 
 router.post('/', function(req, res, next) {
@@ -18,12 +33,15 @@ router.post('/', function(req, res, next) {
     return res.status(400).json({ error: 'Name is required' });
   }
 
-  const newUser = {
-    id: nextId++,
-    name,
-  };
-  users.push(newUser);
-  res.status(201).json(newUser);
+  const insert = "INSERT INTO users (name) VALUES (?)";
+  db.run(insert, [name], function(err) {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Database error' });
+    } else {
+      res.status(201).json({ id: this.lastID, name });
+    }
+  });
 });
 
 module.exports = router;
