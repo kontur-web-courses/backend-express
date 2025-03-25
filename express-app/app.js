@@ -7,7 +7,12 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
-
+app.use((req, res, next) => {
+    if (req.query.auth !== 'true') {
+        return res.status(401).json({ error: 'Authentication required' });
+    }
+    next();
+});
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
