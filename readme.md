@@ -56,7 +56,7 @@ module.exports = app;
 app.use("/users", usersRouter);
 ```
 
-Выполни запрос https://localhost:3000/users в браузере. Посмотри на ответ.
+Выполни запрос http://localhost:3000/users в браузере. Посмотри на ответ.
 
 Открой файл `routes/users.js`. В нём есть функция, которая принимает объект запроса `req` (от "request"), объект ответа
 `res` (от "response") и коллбэк `next`,
