@@ -19,11 +19,12 @@ app.use((req, res, next) => {
     if (authParam === 'true') {
         next();
     } else {
-        res.status(403).send("not auth");
+        res.status(401).send("not auth");
     }
 });
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
 
 module.exports = app;
