@@ -1,36 +1,35 @@
 var express = require('express');
 var router = express.Router();
+const sqlite3 = require('sqlite3').verbose()
+const db = new sqlite3.Database('mydb.db');
 
-const arr = {
-  items: [
-    {
-      "id": 1,
-      "name": "Stas"
-    },
-
-    {
-      "id": 2,
-      "name": "Ruslan"
-    },
-
-    {
-      "id": 3,
-      "name": "Russia"
-    }
-  ]
-}
+db.run(`CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name text)`);
 
 
-/* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send(arr);
+  db.all("SELECT id, name FROM users", [], (err, rows) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send({items: rows});
+    }
+  });
 });
 
-
 router.post('/', function(req, res, next) {
-  const newPerson  = req.body;
-  arr.items.push(newPerson);
-  res.send(arr);
-})
+  if (!req.body.name) {
+    return res.status(400).send({ error: 'Name is required' });
+  }
+
+  const insert = "INSERT INTO users (name) VALUES (?)";
+  db.run(insert, [req.body.name]);
+
+  res.status(201).send({
+    id: this.lastID,
+    name: req.body.name
+  });
+});
 
 module.exports = router;
