@@ -15,4 +15,10 @@ router.get('/', function (req, res, next) {
     res.send(result);
 });
 
+router.post('/', function (req, res, next) {
+    let user = req.body;
+    res.send(user);
+})
+
+
 module.exports = router;
