@@ -30,6 +30,7 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
     const newUser = req.body;
     insertUser(newUser.name);
+    res.send();
 });
 
 module.exports = router;
