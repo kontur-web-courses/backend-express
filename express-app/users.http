@@ -1,0 +1,30 @@
+GET http://localhost:3000/users
+Accept: application/json
+
+
+### Добавление нового пользователя
+POST http://localhost:3000/users
+Content-Type: application/json
+{
+  "name": "Dave"
+}
+
+### Получение пользователей с авторизацией
+GET http://localhost:3000/users?auth=true
+Accept: application/json
+
+### Ошибка при отсутствии авторизации
+GET http://localhost:3000/users
+Accept: application/json
+
+### Добавление пользователя (в базу данных)
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "Aboba"
+}
+
+### Получение пользователей из базы данных
+GET http://localhost:3000/users?auth=true
+Accept: application/json
