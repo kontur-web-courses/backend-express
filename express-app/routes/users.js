@@ -15,8 +15,13 @@ router.get('/', function(req, res, next) {
   // }]);
 
 });
-
+const users = [];
 router.post('/users', function(req, res, next) {
-  let userData = req.body;
+  const user = req.body;
+  users.push(user);
+  res.status(201).json({
+    message: 'successfully',
+    user
+  });
 });
 module.exports = router;
