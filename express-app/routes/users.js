@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
 router.get('/', function (req, res, next) {
 
   const object = {
@@ -13,6 +12,17 @@ router.get('/', function (req, res, next) {
     ]
   }
   res.send(object);
+});
+
+router.post('/', function (req, res, next) {
+  const newUser = {
+    id: usersStorage.length + 1,
+    name: req.body.name
+  };
+
+  usersStorage.push(newUser);
+
+  res.status(201).json(newUser);
 });
 
 module.exports = router;
