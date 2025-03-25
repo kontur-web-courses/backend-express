@@ -1,32 +1,52 @@
 var express = require('express');
 var router = express.Router();
 
-class User {
-    constructor(id, name) {
-        this.id = id;
-        this.name = name;
-    }
+const sqlite3 = require('sqlite3').verbose()
+const db = new sqlite3.Database('mydb.db');
 
-    toObject() {
-        return {id: this.id, name: this.name};
-    };
-}
-
-const users = [];
-users.push(new User(1, 'John Doe'));
-users.push(new User(2, 'Jane Smith'));
-users.push(new User(3, 'Alice Johnson'));
+// Initialize database
+db.run(`CREATE TABLE IF NOT EXISTS users
+        (
+            id
+            INTEGER
+            PRIMARY
+            KEY
+            AUTOINCREMENT,
+            name
+            text
+        )`);
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-    res.send({items: users.map(t => t.toObject())});
+    db.all("SELECT id, name FROM users", [], (err, rows) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Database error');
+        } else {
+            res.send(rows);
+        }
+    });
 });
 
 router.post('/', function (req, res, next) {
     const {name} = req.body;
-    console.log(req.body);
-    users.push(new User(users.length + 1, name));
-    res.send("ok");
+
+    if (!name) {
+        return res.status(400).send('Name is required');
+    }
+
+    const insert = "INSERT INTO users (name) VALUES (?)";
+    db.run(insert, [name], function (err) {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Database error');
+        } else {
+            res.send({
+                message: "User added successfully",
+                id: this.lastID
+            });
+        }
+    });
 });
 
 module.exports = router;
