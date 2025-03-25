@@ -8,6 +8,14 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+app.use((req, res, next) => {
+    const auth = req.query.auth;
+    if (auth !== 'true')
+      return res.status(401).json({error: "Unauthorized"});
+  
+    next();
+  });
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
