@@ -21,7 +21,7 @@ app.use((req, res, next) => {
     if (req.query["auth"] !== "true") {
         return res.sendStatus(401);
     }
-    else return next();
+    return next();
 }, usersRouter);
 
 app.use('/users', usersRouter);
