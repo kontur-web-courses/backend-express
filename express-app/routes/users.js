@@ -2,8 +2,42 @@ var express = require('express');
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('Hello, world!');
+router.get('/', function (req, res, next) {
+    userArray = [
+        {
+            "name": "Дмитрий",
+            "age": 19,
+            "city": "Kurgan"
+        },
+        {
+            "name": "Дмитрий",
+            "age": 19,
+            "city": "Ekaterinburg"
+        }
+    ]
+    items = [
+        {
+            "id": 1,
+            "name": "Дмитрий"
+        },
+        {
+            "id": 2,
+            "name": "Алексей"
+        },
+        {
+            "id": 3,
+            "name": "Александр"
+        },
+        {
+            "id": 4,
+            "name": "Георгий"
+        }
+    ]
+    const obj = {
+        "users": userArray,
+        "items": items
+    }
+    res.send(obj);
 });
 
 module.exports = router;
