@@ -26,7 +26,7 @@ router.post('/', function (req, res, next) {
     const {name} = req.body;
     console.log(req.body);
     users.push(new User(users.length + 1, name));
-    res.send("ok")
+    res.send("ok");
 });
 
 module.exports = router;
