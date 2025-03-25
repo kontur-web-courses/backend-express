@@ -1,0 +1,18 @@
+POST http://localhost:3000/users?auth=true
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "aboba2"
+}
+
+
+###
+GET http://localhost:3000/users?auth=true
+Accept: application/json
+
+###
+DELETE http://localhost:3000/users?id=1
+Content-Type: application/json
+Accept: application/json
+
