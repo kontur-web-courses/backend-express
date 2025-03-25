@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+
+const sqlite3 = require('sqlite3').verbose()
+const db = new sqlite3.Database('mydb.db');
 let usersStorage = {
   items: [
     {
@@ -28,18 +31,27 @@ let usersStorage = {
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.json(usersStorage);
+  db.all("SELECT id, name FROM users", [], (err, rows) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(rows);
+    }
+  });
 });
 
 router.post('/', function (req, res, next) {
-  const newUser = {
-    id: usersStorage.items.length + 1,
-    name: req.body.name
-  };
+  // const newUser = {
+  //   id: usersStorage.items.length + 1,
+  //   name: req.body.name
+  // };
+  //
+  // usersStorage.items.push(newUser);
+  const name = req.body.name;
+  const insert = "INSERT INTO users (name) VALUES (?)";
+  db.run(insert, [name]);
 
-  usersStorage.items.push(newUser);
-
-  res.status(201).json(newUser);
+  res.status(201).json(name);
 });
 
 module.exports = router;
