@@ -8,3 +8,11 @@ Content-Type: application/json
 {
   "name": "Dave"
 }
+
+### Получение пользователей с авторизацией
+GET http://localhost:3000/users?auth=true
+Accept: application/json
+
+### Ошибка при отсутствии авторизации
+GET http://localhost:3000/users
+Accept: application/json
