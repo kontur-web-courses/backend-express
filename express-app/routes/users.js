@@ -25,7 +25,7 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
   const insert = "INSERT INTO users (name) VALUES (?)";
-  console.log(req.body.name);
+  console.log(req.body);
   db.run(insert, [req.body.name]);
   db.all("SELECT id, name FROM users", [], (err, rows) => {
     if (err) {
