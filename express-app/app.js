@@ -18,3 +18,11 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 module.exports = app;
+
+
+app.use((req, res, next) => {
+    if (req.query.auth !== 'true') {
+      return res.status(401).json({ error: 'Требуется аутентификация' });
+    }
+    next();
+});
