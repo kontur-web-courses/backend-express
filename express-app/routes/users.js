@@ -17,38 +17,57 @@ let users = [
 ];
 
 /* GET users listing. */
-router.get("/", function (req, res, next) {
-  // for (const id of Object.keys(req.query)) {
-  //   users.push({
-  //     id: id,
-  //     user: req.query[id],
-  //   });
-  // }
-  res.send({ users });
+router.get("/", async function (req, res, next) {
+  res.send(await getAll());
 });
 
-router.post("/", function(req, res) {
+router.post("/", async function(req, res) {
   try {
     const userData = req.body;
-
-    if (!userData.id || !userData.name) {
+    let info = (await getOne(userData.name));
+    if (!userData.name) {
       return res.status(400).json({ error: 'Missing required fields: id, name' });
     }
 
-    if (users[userData.id]) {
-      return res.status(409).json({ error: 'User with this id already exists' });
+    if (info !== null) {
+      return res.status(409).json({ error: 'User with this name already exists' });
     }
+    let name = userData.name;
+    const insert = "INSERT INTO users (name) VALUES (?)";
+    db.run(insert, [name]);
 
-    users[userData.id] = {
-      id: userData.id,
-      name: userData.name
-    };
-
-    res.status(201).json(users[userData.id]);
+    res.status(201).json(await getOne(name));
   } catch (error) {
     console.error('Error creating user:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
+const sqlite3 = require('sqlite3').verbose()
+const db = new sqlite3.Database('mydb.db');
+
 module.exports = router;
+
+// Получение одного пользователя
+async function getOne(name) {
+  return await new Promise((resolve, reject) => {
+    db.get(
+        "SELECT id, name FROM users WHERE name = ?",
+        [name],
+        (err, row) => {
+          if (err) reject(err);
+          else resolve(row || null);
+        }
+    );
+  });
+}
+
+// Получение всех пользователей
+async function getAll() {
+  return await new Promise((resolve, reject) => {
+    db.all("SELECT id, name FROM users", [], (err, rows) => {
+      if (err) reject(err);
+      else resolve(rows || []);
+    });
+  });
+}
