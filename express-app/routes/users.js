@@ -22,4 +22,11 @@ router.get('/', function (req, res, next) {
     res.send({items: users.map(t => t.toObject())});
 });
 
+router.post('/', function (req, res, next) {
+    const {name} = req.body;
+    console.log(req.body);
+    users.push(new User(users.length + 1, name));
+    res.send("ok")
+});
+
 module.exports = router;
