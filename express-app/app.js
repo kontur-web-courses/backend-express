@@ -5,7 +5,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var authRouter = require('./routes/auth');
+//var authRouter = require('./routes/auth');
 
 var app = express();
 
@@ -22,5 +22,5 @@ app.use((req, res, next) => {
         return res.sendStatus(401);
     }
     return next();
-    }, authRouter);
+    }, usersRouter);
 module.exports = app;
