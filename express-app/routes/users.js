@@ -1,27 +1,18 @@
 var express = require('express');
+const req = require("express/lib/request");
+const res = require("express/lib/response");
 var router = express.Router();
+
+let users = [];
+
+router.post('/', (req, res) => {
+  users.push(req.body);
+  return res.status(200)});
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  const items = [
-    {
-      "id": 1,
-      "name": "Yura"
-    },
-    {
-      "id": 2,
-      "name": "Max"
-    },
-    {
-      "id": 3,
-      "name": "Stas"
-    },
-    {
-      "id": 4,
-      "name": "Katya"
-    },
-  ]; 
-  res.send(items);
+  res.send(users);
 });
 
 module.exports = router;
