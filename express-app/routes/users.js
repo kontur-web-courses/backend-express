@@ -33,11 +33,11 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function (req, res, next) {
   const newUser = {
-    id: usersStorage.length + 1,
+    id: usersStorage.items.length + 1,
     name: req.body.name
   };
 
-  usersStorage.push(newUser);
+  usersStorage.items.push(newUser);
 
   res.status(201).json(newUser);
 });
