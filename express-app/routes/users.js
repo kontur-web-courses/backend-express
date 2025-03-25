@@ -9,4 +9,8 @@ router.get('/', function(req, res, next) {
   });
 });
 
+const user = router.post('/', function(req, res, next) {
+  res.send(req.body);
+})
+
 module.exports = router;
