@@ -17,13 +17,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-module.exports = app;
-
 app.use((req, res, next) => {
-    if (req.query.auth === 'true') {
-        next();
+    if (req.query.auth !== 'true') {
+        return res.status(401).json({ error: 'Требуется аутентификация' });
     }
-    else {
-        res.status(401).send('Не авторизован');
-    }
+    next();
 });
+
+module.exports = app;
