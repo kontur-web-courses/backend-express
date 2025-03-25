@@ -9,6 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  users.items.push(req.body);
+  users.items.push(req.body)
+  res.send(users);
 })
 module.exports = router;
