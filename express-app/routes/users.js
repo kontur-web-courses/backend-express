@@ -28,15 +28,12 @@ let users = [{
 }];
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-    res.send({
-        "items": users
-    });
+  getUsers(res);
 });
 
 router.post('/', function (req, res, next) {
     const newUser = req.body;
-    users.push(newUser);
-
+    insertUser(newUser.name);
 });
 
 module.exports = router;
