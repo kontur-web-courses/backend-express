@@ -1,20 +1,30 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const pathHandler = require('path');
+const cookieHandler = require('cookie-parser');
+const logMiddleware = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const mainRoute = require('./routes/index');
+const userRoute = require('./routes/users');
+const qs = require("node:querystring");
 
-var app = express();
+const server = express();
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+server.use(logMiddleware('dev'));
+server.use(express.json());
+server.use(express.urlencoded({extended: false}));
+server.use(cookieHandler());
+server.use(express.static(pathHandler.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+server.use((request, response, proceed) => {
+    const authCheck = request.query.auth;
+    if (authCheck !== 'true') {
+        response.status(401).json({error: 'Not authorized'});
+        return;
+    }
+    proceed();
+});
 
-module.exports = app;
+server.use('/', mainRoute);
+server.use('/users', userRoute);
+
+module.exports = server;
