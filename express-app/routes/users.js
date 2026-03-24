@@ -4,7 +4,7 @@ const router = express.Router();
 let users = [
     {
         "id": 1,
-        "name": "Vladislav Ershov pidoras"
+        "name": "Vladislav Ershov"
     },
     {
         "id": 2,
@@ -26,5 +26,17 @@ router.post('/', function (req, res, next) {
     users.push(newUser);
     res.status(201).json(newUser);
 });
+
+router.get('/:id', function (req, res, next) {
+    const id = Number(req.params.id);
+    for(let i = 0; i< users.length; i++){
+
+        console.log(id);
+        if (users[i].id === id){
+            res.status(201).json(users[i]);
+        }
+    }
+    res.status(404).json({})
+})
 
 module.exports = router;
