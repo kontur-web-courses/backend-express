@@ -110,7 +110,6 @@
    - `500 Internal Server Error` — ошибка на сервере
 
    Проверь создание пользователя через `.http`-файл:
-
    ```http
    POST http://localhost:3000/users
    Content-Type: application/json
