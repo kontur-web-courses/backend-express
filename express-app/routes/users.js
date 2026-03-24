@@ -8,7 +8,6 @@ db.run(`CREATE TABLE IF NOT EXISTS users (
 const router = express.Router();
 
 
-/* GET users listing. */
 router.get('/', function (req, res, next) {
     db.all("SELECT id, name FROM users", [], (err, rows) => {
         if (err) {
