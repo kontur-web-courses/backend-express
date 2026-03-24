@@ -15,6 +15,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
+const authMiddleware = (req, res, next) => {
+  if (req.query.auth === 'true') {
+    next();
+  } else {
+    res.status(401).send('Access Denied');
+  }
+};
+
+app.use('/users', authMiddleware, usersRouter);
 
 module.exports = app;

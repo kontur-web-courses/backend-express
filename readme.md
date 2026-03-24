@@ -10,51 +10,49 @@
    Она установит необходимые зависимости.
 
    Затем запусти приложение. Способ запуска зависит от твоих ОС и терминала:
-
    - MacOS/Linux:
 
-      ```bash
-      DEBUG=myapp:* npm run dev
-      ```
+     ```bash
+     DEBUG=myapp:* npm run dev
+     ```
 
    - Windows Command Prompt:
 
-      ```cmd
-      set DEBUG=myapp:* & npm run dev
-      ```
+     ```cmd
+     set DEBUG=myapp:* & npm run dev
+     ```
 
    - Windows PowerShell:
 
-      ```powershell
-      $env:DEBUG='myapp:*'; npm run dev
-      ```
+     ```powershell
+     $env:DEBUG='myapp:*'; npm run dev
+     ```
 
    После этого открой http://localhost:3000/ и посмотри приветствие от Express.
 
    Обрати внимание: в консоли логируются запросы к твоему приложению.
 
 2. Посмотри на структуру `app.js`. Давай разберём, что там происходит.
-
    - Сначала мы подключаем необходимые библиотеки. Делается это с помощью директивы `require()`, которая присуща Node.js.
    - Затем мы создаём объект приложения
 
-      ```js
-      const app = express();
-      ```
+     ```js
+     const app = express();
+     ```
 
    - Затем мы подключаем разные `middleware` и обработку запросов (`app.use`).
    - Затем экспортируем настроенный объект приложения
 
-      ```js
-      module.exports = app;
-      ```
+     ```js
+     module.exports = app;
+     ```
 
    Главный интерес для нас представляет блок с подключением обработки запросов. С ним мы и будем в дальнейшем работать.
 
 3. Давай допишем обработку запроса `/users`. Она подключается строчкой
 
    ```js
-   app.use("/users", usersRouter);
+   app.use('/users', usersRouter);
    ```
 
    Выполни запрос http://localhost:3000/users в браузере. Посмотри на ответ.
@@ -66,8 +64,8 @@
 
    ```json
    {
-      "id": 1,
-      "name": "name"
+     "id": 1,
+     "name": "name"
    }
    ```
 
@@ -78,10 +76,9 @@
    Выполни запрос за пользователями заново, посмотри на ответ. Должен быть твой объект в виде json.
 
 4. Давай научимся отправлять запросы в бэкенд не из браузера. Для этого воспользуемся http-файлами (файлы с расширением `.http`).
-
    - В WebStorm клиент для них уже встроен (Tools → HTTP Client → Create request in HTTP client).
    - Для Visual Studio Code есть расширение «REST Client», которое позволит писать и отправлять запросы точно так же, как в WebStorm.
-   Для его установки открой меню `Extensions` (в левой панели это иконка с кубиками), затем в поисковике найди расширение `REST Client`.
+     Для его установки открой меню `Extensions` (в левой панели это иконка с кубиками), затем в поисковике найди расширение `REST Client`.
 
    Открой HTTP-клиент, создай файл запроса (с расширением `.http`) и напиши следующий запрос:
 
@@ -162,7 +159,7 @@
    Затем добавь код создания таблицы в файл с обработкой запросов с пользователями:
 
    ```js
-   const sqlite3 = require('sqlite3').verbose()
+   const sqlite3 = require('sqlite3').verbose();
    const db = new sqlite3.Database('mydb.db');
    db.run(`CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -173,19 +170,19 @@
    После этого в обработчик создания пользователя добавь сохранение в БД:
 
    ```js
-   const insert = "INSERT INTO users (name) VALUES (?)";
+   const insert = 'INSERT INTO users (name) VALUES (?)';
    db.run(insert, [name]);
    ```
 
    В методе получения пользователей сделай получение их из БД с помощью
 
    ```js
-   db.all("SELECT id, name FROM users", [], (err, rows) => {
-      if (err) {
-         console.log(err);
-      } else {
-         res.send(rows);
-      }
+   db.all('SELECT id, name FROM users', [], (err, rows) => {
+     if (err) {
+       console.log(err);
+     } else {
+       res.send(rows);
+     }
    });
    ```
 
