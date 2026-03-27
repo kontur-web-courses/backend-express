@@ -13,6 +13,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use((req, res, next) => {
+    if (req.query.auth === 'true') {
+        return next(); // пускаем дальше
+    }
+
+    res.status(401).json({ message: 'Unauthorized' });
+});
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
