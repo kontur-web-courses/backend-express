@@ -1,0 +1,9 @@
+POST http://localhost:3000/users?auth=true
+Content-Type: application/json
+
+{
+    "name": "anotherName"
+}
+###
+GET http://localhost:3000/users?auth=true
+Accept: application/json
